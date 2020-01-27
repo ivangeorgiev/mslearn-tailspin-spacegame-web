@@ -10,6 +10,13 @@ trigger:
     buildConfiguration: 'Release'
     wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
     dotnetSdkVersion: '3.1.100'
+    runSonarScan:  |
+      and
+      (
+        succeeded(),
+        eq(variables['Build.Reason'], 'PullRequest'),
+        eq(variables['System.PullRequest.TargetBranch'], 'master')
+      )
   
   steps:
   - task: UseDotNet@2
@@ -21,6 +28,7 @@ trigger:
     displayName: 'Use .NET Core SDK 2.1.505 for SonarCloud'
     inputs:
       version: '2.1.505'
+    condition: $(runSonarScan)
   
   - task: Npm@1
     displayName: 'Run npm install'
