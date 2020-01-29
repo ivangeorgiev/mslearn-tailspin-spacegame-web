@@ -118,7 +118,9 @@ stages:
       vmImage: 'windows-2019'
     variables:
     - group: 'Release'
-    steps: 
+    steps:
+    - powershell: (Get-Item "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe").VersionInfo 
+      displayName: 'We want to know the Chrome version installed on this darned machine'
     - task: UseDotNet@2
       displayName: 'Use .NET Core SDK $(dotnetSdkVersion)'
       inputs:
